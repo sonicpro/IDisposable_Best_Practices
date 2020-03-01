@@ -13,9 +13,9 @@ namespace Sixeyed.Disposable.DomainConsoleApp.Impl
 {
     class BookFeedRunner : IBookFeedRunner
     {
-        private readonly IBookFeedRepository _repository;
+        private IBookFeedRepository _repository;
         private readonly IStreamUser _streamUser;
-        private readonly IFileArchiver _fileArchiver;
+        private IFileArchiver _fileArchiver;
 
         public BookFeedRunner(IBookFeedRepository repository, IStreamUser streamUser, IFileArchiver fileArchiver)
         {
@@ -105,6 +105,29 @@ namespace Sixeyed.Disposable.DomainConsoleApp.Impl
             {
                 Console.WriteLine("ERROR: " + ex.Message);
                 cancellationTokenSource.Cancel();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_fileArchiver !=  null)
+                {
+                    _fileArchiver.Dispose();
+                    _fileArchiver = null;
+                }
+                if (_repository != null)
+                {
+                    _repository.Dispose();
+                    _repository = null;
+                }
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Sixeyed.Disposable.DomainConsoleApp.Domain;
 using Sixeyed.Disposable.DomainConsoleApp.Interfaces;
 
@@ -31,6 +32,21 @@ namespace Sixeyed.Disposable.DomainConsoleApp.Impl
         public void Save()
         {
             _context.SaveChanges();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing && _context != null)
+            {
+                _context.Dispose();
+                _context = null;
+            }
         }
     }
 }

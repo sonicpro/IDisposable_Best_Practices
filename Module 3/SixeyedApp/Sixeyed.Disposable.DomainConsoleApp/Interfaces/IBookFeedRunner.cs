@@ -1,6 +1,8 @@
-﻿namespace Sixeyed.Disposable.DomainConsoleApp.Interfaces
+﻿using System;
+
+namespace Sixeyed.Disposable.DomainConsoleApp.Interfaces
 {
-    public interface IBookFeedRunner
+    public interface IBookFeedRunner : IDisposable
     {
         void Start();
     }

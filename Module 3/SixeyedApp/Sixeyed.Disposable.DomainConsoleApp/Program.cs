@@ -11,11 +11,13 @@ namespace Sixeyed.Disposable.DomainConsoleApp
 {
     class Program
     {
+        private static IBookFeedRunner Runner;
+
         static void Main(string[] args)
         {
             Container.Configure();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("'s' to Start; 'gc' to Garbage Collect; 'x' to Exit");
+            Console.WriteLine("'s' to Start; 'p' to pause; 'gc' to Garbage Collect; 'x' to Exit");
             var command = "";
             while (command != "x")
             {
@@ -24,6 +26,10 @@ namespace Sixeyed.Disposable.DomainConsoleApp
                 {
                     case "s":
                         Start();
+                        break;
+
+                    case "p":
+                        Stop();
                         break;
 
                     case "gc":
@@ -35,8 +41,17 @@ namespace Sixeyed.Disposable.DomainConsoleApp
 
         private static void Start()
         {
-            var runner = Container.Resolve<IBookFeedRunner>();
-            runner.Start();
+            Runner = Container.Resolve<IBookFeedRunner>();
+            Runner.Start();
+        }
+
+        private static void Stop()
+        {
+            if (Runner != null)
+            {
+                Runner.Dispose();
+                Runner = null;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Sixeyed.Disposable.DomainConsoleApp.Interfaces;
+using System;
 using System.IO;
 
 namespace Sixeyed.Disposable.DomainConsoleApp.Impl
@@ -7,9 +8,13 @@ namespace Sixeyed.Disposable.DomainConsoleApp.Impl
     {
         public void CopyFile(string sourcePath, string targetPath)
         {
-            var inputStream = File.OpenRead(sourcePath);
-            var outputStream = File.Create(targetPath);
-            inputStream.CopyTo(outputStream);
+            using (var inputStream = File.OpenRead(sourcePath))
+            {
+                using (var outputStream = File.Create(targetPath))
+                {
+                    inputStream.CopyTo(outputStream);
+                }
+            }
         }
     }
 }
