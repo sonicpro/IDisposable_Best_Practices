@@ -21,3 +21,9 @@ create table BookLine
 go
 ALTER TABLE BookLine ADD CONSTRAINT FK_BookLine_BookFeed FOREIGN KEY (BookFeedId)
 REFERENCES BookFeed(Id)
+
+ALTER TABLE [dbo].[BookLine] ADD Id int not null identity(1, 1)
+GO
+
+ALTER TABLE [dbo].[BookLine] ADD CONSTRAINT PK_BookLine PRIMARY KEY(Id)
+
